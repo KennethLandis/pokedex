@@ -40,17 +40,14 @@ function pokemonIconFormat(results) {
 
 //Generates HTML String for displaying pokedex base Icon
 function generateIconHtml(currentPokemon) {
-    console.log(currentPokemon);
-    console.log('generating string');
-    return `<li> <img src="${currentPokemon.picture}"/> <h2>${currentPokemon.id}. ${currentPokemon.name}</h2>
-    <p>Types: ${currentPokemon.types}<p> </li>`
+    return `<div class ='icon'> <img src="${currentPokemon.picture}"/> <h2>${currentPokemon.id}. ${currentPokemon.name}</h2>
+    <p>Types: ${currentPokemon.types}<p> </div>`
 }
 
 //Function for Pushing html elements into the pokelist section in the DOM for displaying Icons
 function generatePokedexPage(pokemon) {
     for (let i = 0; i < pokemon.length; i++) {
         let pokeString = generateIconHtml(pokemon[i]);
-        console.log(pokeString);
         $('.pokelist').append(pokeString);
     }
 }
