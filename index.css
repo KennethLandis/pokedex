@@ -15,3 +15,10 @@
     display: none;
   }
   
+  ul {
+    list-style: none;
+    display: flexbox;
+  }
+
+  li {
+  }
