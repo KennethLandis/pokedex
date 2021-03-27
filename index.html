@@ -16,15 +16,12 @@
     <main class = 'js-main'>
         <div>
             <form>
-                <label for="species">Search:</label>
-                <input type="text" id="species" name="species">
+                <input type="text" id="species" onkeyup="filterName()" placeholder="search by name">
+                <input type="text" id="type" onkeyup="filterType()" placeholder="search by type">
             </form>
         </div>
-
-        <div class="pokelist container">
-            
-        </div>
-
+        <ul id ="myUL" class="pokelist container">
+        </ul>
     </main>
 
 
