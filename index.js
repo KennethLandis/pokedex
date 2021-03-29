@@ -3,7 +3,7 @@
 // Gather the Pokemon from the first Generation with api call to pokeapi
 
 async function getGen1() {
-    console.log('grabbing pokemon list');
+    //console.log('grabbing pokemon list');
     const promises = [];
     for (let i = 1; i < 152; i++) {
         let pokeList = `https://pokeapi.co/api/v2/pokemon/${i}`
@@ -18,12 +18,11 @@ async function getGen1() {
 
 async function getPokemonInfo(currentPokemon) {
     let modalPromise = [];
-    console.log('getting Pokemon details')
+    //console.log('getting Pokemon details')
     let pokeInfo = `https://pokeapi.co/api/v2/pokemon/${currentPokemon}`;
     modalPromise.push(fetch(pokeInfo).then(res => res.json()));
     let results = await Promise.all(modalPromise);
     let modalPoke = await pokemonModalFormat(results);
-    //console.log(modalPoke);
     return modalPoke;
 };
 
@@ -58,14 +57,16 @@ function pokemonModalFormat(pokeData) {
 //Generates HTML String for displaying pokedex base Icon
 
 function generateIconHtml(currentPokemon) {
-    return `<li class='icon'><img src="${currentPokemon.picture}"/> <h2>${currentPokemon.id}</h2> <h3><button class="pokeName" value ="${currentPokemon.name}">${currentPokemon.name}</button></h3>
-    <p>Types: ${currentPokemon.types}</p></li>`
+    return `<li class='icon'><img src="${currentPokemon.picture}"/> 
+                <h2>${currentPokemon.id}</h2> 
+                <h3><button class="pokeName" value ="${currentPokemon.name}">${currentPokemon.name}</button></h3>
+                <p>Types: ${currentPokemon.types}</p></li>`
 };
 
 //Generate HTML String for Modal Pokemon information
 function generateModalHtml(currentPokemon) {
     return `<div class="modal-header">
-    <span class="close">&times;</span>
+    <span id="mySpan" class="close">&times;</span>
     <h2>${currentPokemon.name}</h2>
   </div>
   <div class="modal-body">
@@ -149,15 +150,18 @@ function filterType() {
 function handleClicked() {
     var modal = document.getElementById("myModal");
     var btn = document.getElementById('pokeName');
-    
+
     //Gather Target Pokemon Name and make api call to get more information
     $('.pokelist').on('click', '.pokeName', async function() {
         var tempPoke = $(this).closest('button').val();
         modal.style.display = "block";
         let pokeData = await getPokemonInfo(tempPoke);
-        console.log(pokeData);
         let pokeModalString = generateModalHtml(pokeData);
         $('.modal-content').html(pokeModalString)
+    });
+
+    $('.modal-content').on('click', '#mySpan', function() {
+        modal.style.display = "none";
     });
 
     window.onclick = function(event) {
