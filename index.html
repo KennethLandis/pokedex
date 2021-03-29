@@ -13,7 +13,21 @@
     <header>
         <h1>Portal's Pokedex</h1>
     </header>
+
     <main class = 'js-main'>
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+              <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Modal Header</h2>
+              </div>
+              <div class="modal-body">
+                <p>Some text in the Modal Body</p>
+                <p>Some other text...</p>
+              </div>
+            </div>
+          </div>
         <div>
             <form>
                 <input type="text" id="species" onkeyup="filterName()" placeholder="search by name">
@@ -21,10 +35,8 @@
             </form>
         </div>
         <ul id ="myUL" class="pokelist container">
-        </ul>
+        </ul>  
     </main>
-
-
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="index.js"></script>
 </body>

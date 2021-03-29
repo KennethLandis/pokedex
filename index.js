@@ -9,19 +9,22 @@ async function getGen1() {
         let pokeList = `https://pokeapi.co/api/v2/pokemon/${i}`
         promises.push(fetch(pokeList).then(res => res.json()));
     }
-    const results = await Promise.all(promises);
+    let results = await Promise.all(promises);
     const pokemonList = pokemonIconFormat(results);
     return pokemonList;
 };
 
 // calling pokeapi to get more details on the pokemon individually from the pokeapi
 
-function getPokemonInfo(currentPokemon) {
+async function getPokemonInfo(currentPokemon) {
+    let modalPromise = [];
     console.log('getting Pokemon details')
     let pokeInfo = `https://pokeapi.co/api/v2/pokemon/${currentPokemon}`;
-    fetch(pokeInfo)
-        .then(response => response.json())
-        .then(responseJson => console.log(responseJson));
+    modalPromise.push(fetch(pokeInfo).then(res => res.json()));
+    let results = await Promise.all(modalPromise);
+    let modalPoke = await pokemonModalFormat(results);
+    //console.log(modalPoke);
+    return modalPoke;
 };
 
 // Format the information on the Pokemon we got from the api into the values we need for Icons
@@ -38,12 +41,41 @@ function pokemonIconFormat(results) {
     return pokemonList
 };
 
+function pokemonModalFormat(pokeData) {
+    var pokemonInfo = pokeData.map(result => {
+        let pokemon = {}
+        pokemon['name'] = result.name
+        pokemon['id'] = result.id
+        pokemon['types'] = result.types.map(type => type.type.name).join(', ')
+        pokemon['stats'] = result.stats.map(stat => stat.stat.name + ':' + stat.base_stat).join(', ')
+        pokemon['height'] = result.height
+        pokemon['weight'] = result.weight
+        return pokemon;
+    });
+    return pokemonInfo[0];  
+}
+
 //Generates HTML String for displaying pokedex base Icon
 
 function generateIconHtml(currentPokemon) {
-    return `<li class='icon'><img src="${currentPokemon.picture}"/> <h2>${currentPokemon.id}</h2> <h3><a href="#">${currentPokemon.name}</a></h3>
+    return `<li class='icon'><img src="${currentPokemon.picture}"/> <h2>${currentPokemon.id}</h2> <h3><button class="pokeName" value ="${currentPokemon.name}">${currentPokemon.name}</button></h3>
     <p>Types: ${currentPokemon.types}</p></li>`
-}
+};
+
+//Generate HTML String for Modal Pokemon information
+function generateModalHtml(currentPokemon) {
+    return `<div class="modal-header">
+    <span class="close">&times;</span>
+    <h2>${currentPokemon.name}</h2>
+  </div>
+  <div class="modal-body">
+    <img src="https://pokeres.bastionbot.org/images/pokemon/${currentPokemon.id}.png" height="400" width="400"/>
+    <p>Pokemon Types: ${currentPokemon.types}</p>
+    <p>Pokemon stats: ${currentPokemon.stats}</p>
+    <p>Pokemon Height: ${currentPokemon.height}</p>
+    <p>Pokemon Weight: ${currentPokemon.weight}</p>
+  </div>`
+};
 
 //Function for Pushing html elements into the pokelist section in the DOM for displaying Icons
 
@@ -52,7 +84,7 @@ function generatePokedexPage(pokemon) {
         let pokeString = generateIconHtml(pokemon[i]);
         $('.pokelist').append(pokeString);
     }
-}
+};
 
 // Function to generate the page in the Dom for user
 
@@ -78,7 +110,7 @@ function filterName() {
       
         // Loop through all list items, and hide those who don't match the search query
         for (i = 0; i < li.length; i++) {
-          a = li[i].getElementsByTagName("a")[0];
+          a = li[i].getElementsByTagName("button")[0];
           txtValue = a.textContent || a.innerText;
           if (txtValue.toUpperCase().indexOf(filter) > -1) {
             li[i].style.display = "";
@@ -89,6 +121,7 @@ function filterName() {
 };
 
 //Same function as above with a new form targetting elements in the list by <p>
+
 function filterType() {
         // Declare variables
         var input, filter, ul, li, p, i, txtValue;
@@ -111,8 +144,27 @@ function filterType() {
 };
 
 //function to handle clicking on pokemon icon for more information
+//display the information in a Modal
+
 function handleClicked() {
-    console.log('handling clicked pokemon');
+    var modal = document.getElementById("myModal");
+    var btn = document.getElementById('pokeName');
+    
+    //Gather Target Pokemon Name and make api call to get more information
+    $('.pokelist').on('click', '.pokeName', async function() {
+        var tempPoke = $(this).closest('button').val();
+        modal.style.display = "block";
+        let pokeData = await getPokemonInfo(tempPoke);
+        console.log(pokeData);
+        let pokeModalString = generateModalHtml(pokeData);
+        $('.modal-content').html(pokeModalString)
+    });
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 };
 
 
