@@ -57,9 +57,8 @@ function pokemonModalFormat(pokeData) {
 //Generates HTML String for displaying pokedex base Icon
 
 function generateIconHtml(currentPokemon) {
-    return `<li class='icon'><img src="${currentPokemon.picture}"/> 
-                <h2>${currentPokemon.id}</h2> 
-                <h3><button class="pokeName" value ="${currentPokemon.name}">${currentPokemon.name}</button></h3>
+    return `<li class='icon'><img class ="icon-img" src="${currentPokemon.picture}"/> 
+                <h3>${currentPokemon.id}  <button class="pokeName" value ="${currentPokemon.name}">${currentPokemon.name}</button></h3>
                 <p>Types: ${currentPokemon.types}</p></li>`
 };
 
@@ -69,8 +68,8 @@ function generateModalHtml(currentPokemon) {
     <span id="mySpan" class="close">&times;</span>
     <h2>${currentPokemon.name}</h2>
   </div>
-  <div class="modal-body">
-    <img src="https://pokeres.bastionbot.org/images/pokemon/${currentPokemon.id}.png" height="400" width="400"/>
+  <div class="modal-body container">
+    <img class="img-responsive" src="https://pokeres.bastionbot.org/images/pokemon/${currentPokemon.id}.png" height="200" width = "200"/>
     <p>Pokemon Types: ${currentPokemon.types}</p>
     <p>Pokemon stats: ${currentPokemon.stats}</p>
     <p>Pokemon Height: ${currentPokemon.height}</p>
