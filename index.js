@@ -37,7 +37,7 @@ function pokemonIconFormat(results) {
         pokemon['types'] = result.types.map(type => type.type.name).join(', ')
         return pokemon;
     });
-    return pokemonList
+    return pokemonList;
 };
 
 function pokemonModalFormat(pokeData) {
@@ -52,7 +52,7 @@ function pokemonModalFormat(pokeData) {
         return pokemon;
     });
     return pokemonInfo[0];  
-}
+};
 
 //Generates HTML String for displaying pokedex base Icon
 
@@ -83,7 +83,7 @@ function generatePokedexPage(pokemon) {
     for (let i = 0; i < pokemon.length; i++) {
         let pokeString = generateIconHtml(pokemon[i]);
         $('.pokelist').append(pokeString);
-    }
+    };
 };
 
 // Function to generate the page in the Dom for user
@@ -116,8 +116,8 @@ function filterName() {
             li[i].style.display = "";
           } else {
             li[i].style.display = "none";
-          }
-        }
+          };
+        };
 };
 
 //Same function as above with a new form targetting elements in the list by <p>
@@ -139,8 +139,8 @@ function filterType() {
             li[i].style.display = "";
             } else {
             li[i].style.display = "none";
-            }
-        }
+            };
+        };
 };
 
 //function to handle clicking on pokemon icon for more information
@@ -166,8 +166,8 @@ function handleClicked() {
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
-        }
-    }
+        };
+    };
 };
 
 
