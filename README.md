@@ -10,7 +10,7 @@ Screenshot:
 ![Screenshot 2021-04-04 131715](https://user-images.githubusercontent.com/67128061/113517868-312abb00-9548-11eb-9820-3b958404b142.png)
 
 Live link:
-kennethlandis.github.io/pokedex/
+https://kennethlandis.github.io/pokedex/
 
 Technology:
 This app was built using Html Css JavaScript jQuery
